@@ -48,12 +48,9 @@ def get_header_from_scope(
     return [value for (key,value) in scope['headers'] if key == header_name]
 
 
-def setifnotnone(dic, key, value):
-    if value is not None:
-        dic[key] = value
 
 
-def http_status_to_canonical_code(code: int, allow_redirect: bool = True):
+def http_status_to_canonical_code(code: int, allow_redirect: bool = True) -> int:
     # pylint:disable=too-many-branches,too-many-return-statements
     if code < 100:
         return StatusCanonicalCode.UNKNOWN
@@ -131,7 +128,7 @@ def set_status_code(span:Span, status_code:str) -> None:  # pylint: disable=unus
         span.set_status(Status(http_status_to_canonical_code(status_code)))
 
 
-def get_default_span_name(scope):
+def get_default_span_name(scope:str) -> str:
     """Calculates a (generic) span name for an incoming HTTP request based on the ASGI scope."""
 
     return "HTTP {method}".format({"method":scope.get("method")})
